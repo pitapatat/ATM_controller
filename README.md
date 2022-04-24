@@ -2,7 +2,7 @@
 
 ## 1. Overview
 ```
-- implemet a simple ATM controller
+- implement a simple ATM controller
 - precondition : ① you have bank account and card 
                  ② you put the 'PIN number' and 'bank name' for identification
                  ③ PIN number is given upon card issuance 
