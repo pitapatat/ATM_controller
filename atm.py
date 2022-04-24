@@ -1,24 +1,20 @@
 import random
 import numpy as np
-import sys
 
-######
-
-# Account : 
-# Card :
-# ATM_controller :
-
-######
-
+#########################################
+# class: Account / Card / ATM_controller
+#########################################
 
 class NotAvailableError(Exception):
     pass
 
+class RejectionError(Exception):
+    pass
 
 
 class Account():
     # suppose 1) bank name 'KB' 2) if you want to open an account, you need a RRN(Resident Registration Number)
-    def __init__(self,RRN:int, bank_name = 'KB', balance = 0):
+    def __init__(self,RRN:str, bank_name = 'KB', balance = 0):
         
         np.random.seed(42)
 
@@ -29,27 +25,28 @@ class Account():
         
     # check the balance
     def current_balance(self):
-        print(f"your current balance is {self.balance}")
+        print(f"====== your current balance is {self.balance} ======")
         return self.balance
 
     # make a deposit 
     def deposit(self, cash:int):
         if type(cash) == int:
             self.balance += cash
-            print(f"you have deposited {cash}. your current balance is {self.balance}")
+            print(f"====== you have deposited {cash}. your current balance is {self.balance} ======")
         else: 
             raise NotAvailableError('you have to enter the "interger". please check it again!')
         return self.balance
     
+
     # withdraw money
     def withdrawal(self, cash:int):
         if type(cash) == int :
            
             if self. balance < cash :
-                raise NotAvailableError(f'you are not allowed to withdraw more than {self.balance}')
+                raise RejectionError(f'====== you are not allowed to withdraw more than {self.balance} ======')
             else :
                 self.balance -= cash
-                print(f"successed! balance = {self.balance}")
+                print(f"====== successed! balance = {self.balance} ======")
             
         else: 
             raise NotAvailableError('you have to enter the "interger". please check it again!')
@@ -57,10 +54,9 @@ class Account():
 
 
 
-
 class Card():
     # suppose to issue a credit card, you need RRN, name, phone_number   
-    def __init__(self, RRN:int, name:str, phone_number):
+    def __init__(self, RRN:str, name:str, phone_number):
         np.random.seed(42)
         self.RRN = RRN 
         self.name = name
@@ -69,11 +65,10 @@ class Card():
         self.account = None
         
         
-
+        
 class ATM_controller():
     # to use ATM, you should insert the card
     def __init__(self, card, connect=False):
-        #card = Card(RRN, name, phone_number)
         self.card = card
         self.connect = connect
         #print("your cart inserted!")
@@ -90,7 +85,6 @@ class ATM_controller():
             raise NotAvailableError("you are wrong! please enter your PIN number")
         return self.connect 
 
-
     # select the account 
     def check_account(self, bank, account, connection=False):
         # account = Account(RNN), connection = check_PIN(PIN)
@@ -99,7 +93,7 @@ class ATM_controller():
             if account._Account__account:
                 if account.bank_name == bank:
                     self.account = account._Account__account
-                    print(f"your account is connected. account_number : {self.account}")
+                    print(f"====== your account is connected. account_number : {self.account} ======")
                     self.connect = True
 
                 else:
@@ -112,18 +106,15 @@ class ATM_controller():
         return self.connect
 
         
-    def current_balance(self):  
+    def current_balance(self, account):  
         if self.connect == True:
             account.current_balance()
 
-    def deposit(self, number):
+    def deposit(self, account,number):
         if self.connect == True:
             account.deposit(number)            
              
-
-    def withdraw(self, number): 
+    def withdraw(self, account, number): 
         if self.connect == True:
             account.withdrawal(number)
             
-
-
