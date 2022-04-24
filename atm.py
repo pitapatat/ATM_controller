@@ -2,117 +2,113 @@ import random
 import numpy as np
 import sys
 
+######
+
+# Account : 
+# Card :
+# ATM_controller :
+
+######
+
 
 class NotAvailableError(Exception):
     pass
 
-#IF KB
-class Account():
 
+
+class Account():
+    # suppose 1) bank name 'KB' 2) if you want to open an account, you need a RRN(Resident Registration Number)
     def __init__(self,RRN:int, bank_name = 'KB', balance = 0):
+        
         np.random.seed(42)
 
         self.RRN = RRN 
         self.bank_name = bank_name
-        self.__account = str(np.random.randint(1000000, 999999999)).zfill(10)
+        self.__account = str(np.random.randint(1000000, 999999999)).zfill(10)  # open an account!(10 digits)
         self.balance = balance
         
-        
-
+    # check the balance
     def current_balance(self):
-        print(f"your account is opened. balance = {self.balance}")
+        print(f"your current balance is {self.balance}")
         return self.balance
 
-    
+    # make a deposit 
     def deposit(self, cash:int):
         if type(cash) == int:
             self.balance += cash
-            print(f"balance = {self.balance}")
+            print(f"you have deposited {cash}. your current balance is {self.balance}")
         else: 
-            raise NotAvailableError('you should int')
+            raise NotAvailableError('you have to enter the "interger". please check it again!')
         return self.balance
     
-
-
-    def withdraw(self, cash:int):
+    # withdraw money
+    def withdrawal(self, cash:int):
         if type(cash) == int :
-            
+           
             if self. balance < cash :
-                raise NotAvailableError(f'you cannot withdraw your cash. your balance : {self.balance}')
+                raise NotAvailableError(f'you are not allowed to withdraw more than {self.balance}')
             else :
                 self.balance -= cash
                 print(f"successed! balance = {self.balance}")
             
         else: 
-            raise NotAvailableError("please 00 dollar")
+            raise NotAvailableError('you have to enter the "interger". please check it again!')
         return self.balance
 
 
 
 
 class Card():
-
-    # 카드 만들때 필요 정보
+    # suppose to issue a credit card, you need RRN, name, phone_number   
     def __init__(self, RRN:int, name:str, phone_number):
         np.random.seed(42)
         self.RRN = RRN 
         self.name = name
         self.phone_number = phone_number
-        self.__PIN = np.random.randint(100000,999999)
+        self.__PIN = np.random.randint(100000,999999)  # got a PIN number 
         self.account = None
-        #print("your card info is registered")
         
         
 
 class ATM_controller():
+    # to use ATM, you should insert the card
     def __init__(self, card, connect=False):
         self.card = Card(RRN, name, phone_number)
         self.connect = connect
-        #super().__init__(self, Account)
         #print("your cart inserted!")
         
-
+    # first of all, check the PIN number 
     def check_PIN(self, PIN):
         self.connect = False
         self.__PIN = PIN
+        # if the PIN number is correct, connection is succesful
         if self.__PIN == self.card._Card__PIN:
             print("connected!")
             self.connect = True
-            return self.connect 
         else:
-            #raise NotAvailableError
-            print("you are wrong! please enter your PIN number")
-            self.connect = False
-            return self.connect 
+            raise NotAvailableError("you are wrong! please enter your PIN number")
+        return self.connect 
 
 
-    # 계좌 연결(계좌 있으면 은행 선택해서 그걸로 연결)
+    # select the account 
     def check_account(self, bank, account, connection=False):
-        ## account = Account()
+        # account = Account(RNN), connection = check_PIN(PIN)
         self.connect = connection
         if self.connect == True: 
             if account._Account__account:
-                try:
-                    if account.bank_name == bank:
-                        self.account = account._Account__account
-                        print(f"your account connected. {self.account}")
-                        self.connect = True
-                        return self.connect 
-                    else:
-                        print("please choose annother bank account")
-                        self.connect = False
-                        return self.connect 
+                if account.bank_name == bank:
+                    self.account = account._Account__account
+                    print(f"your account is connected. account_number : {self.account}")
+                    self.connect = True
 
-                except:
-                    print("you dont have account")
+                else:
+                    print("please enter annother bank name")
                     self.connect = False
-                    return self.connect 
-
+                    
         else: 
             self.connect = False
-            return self.connect
-            #raise NotAvailableError("please connecting your PIN number. it's wrong path")
-
+            raise NotAvailableError("it's wrong path. your PIN number is not corrected")
+        return self.connect
 
         
     def current_balance(self):  
@@ -122,74 +118,11 @@ class ATM_controller():
     def deposit(self, number):
         if self.connect == True:
             account.deposit(number)            
-            #super().deposit(number)   
+             
 
     def withdraw(self, number): 
         if self.connect == True:
-            account.withdraw(number)
-            #super().withdraw(number)
-
-
-
-#####
-RRN = '123456'
-name  = 'hani'
-phone_number  = '010-1234-5678'
-bank = 'KB'
-
-
-
-
-# card insert
-def user_func(insert):
-    atm = ATM_controller(insert)
-    PIN = input("for checking your identity. please enter our PIN number")  #PIN=input()
-    #PIN = 221958
-    connection = atm.check_PIN(int(PIN))
-    # 계좌 생성자 
-    while connection == True:
-        print(connection)
-        account = Account(RRN)
-        bank_name = input("choose youe bank name")
-        #bank = 'KB'
-        # 계좌 연결
-        connected_2 = atm.check_account(bank_name, account, connection)
-        print(connected_2)
-        
-        while connected_2 == True:
-            num = input("what do you want? YOU CANT CHOOSE 1,2,3")
-            if num == '1':
-                print(atm.current_balance())
-            elif num == '2':
-                money = input(" how much ?") # money
-                atm.deposit(int(money))
-
-            elif num == '3':
-                money = input(" how much ?") # money
-                try:
-                    atm.withdraw(int(money))
-                except:
-                    BAL = atm.current_balance()
-                    print(f"you cant wuthdraw your money. you have:{BAL}")
-                    continue
-            else:
-                sys.exit('programe bye')
-        else: 
-            print("please choose annother bank account")
-
-    
-    
-    else:
-        user_func(card)
-    
-
-    #num = input("what do you want more?")
-
-
-
-
-
-
-
+            account.withdrawal(number)
+            
 
 
