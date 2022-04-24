@@ -6,6 +6,7 @@
 - precondition : ① you have bank account and card 
                  ② you put the 'PIN number' and 'bank name' for identification
                  ③ PIN number is given upon card issuance 
+- assumption : current account balance = 50000
 ```
 
 ## 2. Process
