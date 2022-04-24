@@ -3,6 +3,9 @@
 ## 1. Overview
 ```
 - implemet a simple ATM controller
+- precondition : ① you have bank account and card 
+                 ② you put the 'PIN number' and 'bank name' for identification
+                 ③ PIN number is given upon card issuance 
 ```
 
 ## 2. Process
@@ -19,14 +22,15 @@
 git clone https://github.com/pitapatat/ATM_controller.git
 ```
 
+```python 
+python run.py
+```
+* enter the number below when the code works 
 ```
 ********** user info **********
      PIN number : 221958
      bank name : KB
 *******************************
-```
-```python 
-python run.py
 ```
 
 ## 3. Results 
