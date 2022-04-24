@@ -17,6 +17,7 @@
 ```
 
 ## 2. How to run 
+* Python 3.9.5
 
 ```python
 git clone https://github.com/pitapatat/ATM_controller.git
