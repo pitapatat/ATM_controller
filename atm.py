@@ -73,7 +73,8 @@ class Card():
 class ATM_controller():
     # to use ATM, you should insert the card
     def __init__(self, card, connect=False):
-        self.card = Card(RRN, name, phone_number)
+        #card = Card(RRN, name, phone_number)
+        self.card = card
         self.connect = connect
         #print("your cart inserted!")
         
